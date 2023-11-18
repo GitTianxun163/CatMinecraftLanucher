@@ -1,4 +1,5 @@
 #include "TitleBar.h"
+#define ParentWidget ((QWidget*)this->parent())
 
 const int barheight=40;
 const int title_margin=5;
@@ -15,7 +16,7 @@ TitleBar::TitleBar(QWidget* parent,QString title) : QFrame(parent) {
 	QFont font;
 	font.setFamily("Microsoft YaHei");
 	font.setBold(true);
-	font.setPixelSize(barheight-title_margin*2);
+	font.setPixelSize(barheight-title_margin*4);
 	this->titlelabel->setFont(font);
 	this->setFont(font);
 
@@ -25,10 +26,10 @@ TitleBar::TitleBar(QWidget* parent,QString title) : QFrame(parent) {
 	connect(this->minsizeButton,SIGNAL(clicked()),this,SLOT(onPressMinsizeButton()));
 
 	// 关闭按钮
-	this->closeButton = new DailogButton(this,"X");
+	this->closeButton = new DailogButton(this,QString::fromUtf8("×"));
 	this->closeButton->setGeometry(this->width()-40,title_margin,barheight-title_margin*2,barheight-title_margin*2);
 	this->closeButton->setStyleSheet(
-		"QLabel {color:rgb(255,255,255);background:rgba(200,200,200,0);border-radius: 15px;}"
+		"QLabel {color:rgb(255,255,255);background:rgba(200,200,200,0);border-radius: 15px;transition: background 0.5s;}"
 		"QLabel:hover {background:rgba(255,0,0,255);border-radius: 15px;}"
 	);
 	connect(this->closeButton,SIGNAL(clicked()),this,SLOT(onPressCloseButton()));
@@ -44,15 +45,15 @@ TitleBar::~TitleBar() {
 }
 
 void TitleBar::onPressMinsizeButton() {
-	((QWidget*)this->parent())->showMinimized();
+	ParentWidget->showMinimized();
 }
 
 void TitleBar::onPressCloseButton() {
-	((QWidget*)this->parent())->close();
+	ParentWidget->close();
 }
 
 void TitleBar::myUpdate() {
-	this->setGeometry(0,0,((QWidget*)this->parent())->width(),barheight);
+	this->setGeometry(0,0,ParentWidget->width(),barheight);
 	this->minsizeButton->setGeometry(this->width()-80,title_margin,barheight-title_margin*2,barheight-title_margin*2);
 	this->closeButton->setGeometry(this->width()-40,title_margin,barheight-title_margin*2,barheight-title_margin*2);
 }

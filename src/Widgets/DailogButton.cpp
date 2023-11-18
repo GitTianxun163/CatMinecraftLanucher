@@ -9,11 +9,9 @@ DailogButton::DailogButton(QWidget* parent,QString text) : QLabel(text,parent) {
 		"QLabel:hover {background:rgba(200,200,200,100);border-radius: 15px;}"
 	);
 	this->setAlignment(Qt::AlignCenter);
-	// QFont font;
-	// font.setFamily("Microsoft YaHei");
-	// font.setBold(true);
-	// font.setPixelSize(this->height());
-	// this->setFont(font);
+	QFont font;
+	font.setBold(true);
+	this->setFont(font);
 }
 
 DailogButton::~DailogButton() {
